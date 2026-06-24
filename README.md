@@ -61,5 +61,19 @@ python -m tests.test_merge      # or: pytest -q
 ## Notes
 - Storage is in-memory (generation-only). Swap `TEMPLATES`/`DOCUMENTS` in
   `app/main.py` for a DB if persistence is needed.
-- The editor loads SuperDoc from `esm.sh` (needs internet). For offline use,
-  bundle `superdoc` with Vite and serve it locally instead.
+- The editor can run **fully offline** (bundled SuperDoc) or fall back to a CDN.
+
+## Offline editor (optional)
+By default `/editor` serves a bundled SuperDoc build if present, otherwise it
+falls back to loading SuperDoc from `esm.sh` (needs internet). To build the
+offline bundle:
+
+```bash
+cd frontend
+npm install
+npm run build        # outputs app/static/dist/{editor.html, editor-*.js, editor-*.css}
+```
+
+FastAPI then serves `app/static/dist/editor.html` at `/editor` and the hashed
+assets at `/assets`. `node_modules/` and `app/static/dist/` are git-ignored —
+run the build after cloning to enable offline mode.

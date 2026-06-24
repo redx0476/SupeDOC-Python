@@ -3,3 +3,10 @@ __pycache__/
 *.pyc
 example_template.docx
 out_sample.docx
+
+# Frontend
+node_modules/
+frontend/node_modules/
+
+# Built SuperDoc bundle (run `npm --prefix frontend run build` to regenerate)
+app/static/dist/

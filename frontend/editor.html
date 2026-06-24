@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Proposal — Editor</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin:0; font:14px/1.5 system-ui,Segoe UI,Roboto,sans-serif; background:#f3f4f6; }
+    .bar { display:flex; align-items:center; gap:12px; padding:8px 14px; background:#fff; border-bottom:1px solid #e2e4ea; }
+    .bar .title { font-weight:600; font-size:14px; }
+    .bar .spacer { flex:1; }
+    .bar button { background:#2f6fed; color:#fff; border:0; border-radius:6px; padding:7px 12px; font-size:13px; cursor:pointer; }
+    .bar button:disabled { opacity:.5; cursor:not-allowed; }
+    #toolbar { background:#fff; border-bottom:1px solid #e2e4ea; }
+    #editor { height: calc(100vh - 96px); overflow:auto; }
+    .msg { padding:24px; color:#444; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <span class="title" id="docTitle">Proposal</span>
+    <span class="spacer"></span>
+    <button id="download" disabled>Download .docx</button>
+  </div>
+  <div id="toolbar"></div>
+  <div id="editor"><div class="msg">Loading editor…</div></div>
+
+  <script type="module" src="/src/editor.js"></script>
+</body>
+</html>

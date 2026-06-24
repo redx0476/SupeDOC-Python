@@ -14,12 +14,14 @@ from pathlib import Path
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse, Response
+from fastapi.staticfiles import StaticFiles
 
 from .example_template import build_example_template
 from .merge import merge
 
 DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 APP_DIR = Path(__file__).resolve().parent
+DIST_DIR = APP_DIR / "static" / "dist"  # built SuperDoc bundle (offline)
 
 app = FastAPI(title="ProposalGPT Document Generation", version="1.0")
 app.add_middleware(
@@ -28,6 +30,10 @@ app.add_middleware(
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# Serve the built editor bundle (hashed JS/CSS + lazy chunks) offline.
+if DIST_DIR.is_dir():
+    app.mount("/assets", StaticFiles(directory=str(DIST_DIR)), name="assets")
 
 # In-memory stores (generation-only).
 TEMPLATES: dict[str, dict] = {}
@@ -167,4 +173,8 @@ def dashboard():
 
 @app.get("/editor", response_class=HTMLResponse)
 def editor():
+    built = DIST_DIR / "editor.html"
+    if built.is_file():
+        return built.read_text()
+    # Fallback to the CDN-based page if the offline bundle isn't built yet.
     return (APP_DIR / "static" / "editor.html").read_text()

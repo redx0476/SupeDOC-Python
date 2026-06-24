@@ -1,0 +1,17 @@
+{
+  "name": "supedoc-python-editor",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "SuperDoc editor bundle for the ProposalGPT Python document generator",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch"
+  },
+  "dependencies": {
+    "superdoc": "^1.43.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}
