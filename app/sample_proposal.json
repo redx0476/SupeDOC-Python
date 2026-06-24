@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "title": "Volume 1: Technical and Management Approach",
+    "solicitation_number": "47QFCA-25-R-0042",
+    "date": "2026-06-11",
+    "company_name": "Navancio LLC",
+    "company_city": "Arlington",
+    "company_state": "VA",
+    "company_zip": "22203",
+    "company_contact_person": "Jordan Avery",
+    "company_contact_email": "jordan.avery@navancio.com",
+    "company_contact_phone": "(703) 555-0142"
+  },
+  "sections": [
+    {
+      "title": "Technical Approach",
+      "section_html": "<p>Our team delivers a <b>proven</b>, low-risk approach built on agile delivery and deep federal experience.</p><ul><li>Agile, milestone-driven delivery</li><li>FedRAMP-aligned cloud architecture</li><li>24x7 service desk coverage</li></ul><p>The table below summarizes our risk posture:</p><table><tr><td>Risk</td><td>Impact</td><td>Mitigation</td></tr><tr><td>Hardware failure</td><td>High</td><td>Maintain critical spares</td></tr><tr><td>Staff turnover</td><td>Medium</td><td>Cross-trained bench</td></tr></table>",
+      "subsections": [
+        {
+          "title": "Solution Architecture",
+          "section_html": "<p>Cloud-native and <i>FedRAMP-aligned</i>, our architecture emphasizes zero-trust and observability.</p>",
+          "subsections": [
+            {
+              "title": "Security & Compliance",
+              "section_html": "<p>Zero-trust segmentation, continuous monitoring, and automated compliance reporting.</p>"
+            }
+          ]
+        },
+        {
+          "title": "Service Delivery Model",
+          "section_html": "<p>A tiered support model with clear escalation paths and measurable SLAs.</p>"
+        }
+      ]
+    },
+    {
+      "title": "Quality Assurance Plan",
+      "section_html": "<p>We apply ISO 9001-aligned quality controls across the program lifecycle.</p>",
+      "subsections": [
+        {
+          "title": "Quality Control Processes",
+          "section_html": "<p>Weekly status reporting, defect tracking, and corrective action workflows.</p>"
+        }
+      ]
+    }
+  ],
+  "has_past_performance": true,
+  "past_performance": [
+    {
+      "award_title": "Enterprise IT Modernization",
+      "award_recipient_name": "Navancio LLC",
+      "role": "Prime",
+      "task_order_number": "TO-0042",
+      "total_contract_value": "$12.4M",
+      "period_of_performance_start": "2023",
+      "period_of_performance_end": "2026",
+      "naics": "541512",
+      "psc": "D307",
+      "customer_poc": "U.S. Air Force",
+      "description": "<p>Migrated 40 legacy systems to a FedRAMP-authorized cloud with <b>zero</b> unplanned downtime.</p>"
+    }
+  ],
+  "has_resumes": true,
+  "resumes": [
+    {
+      "first_name": "John",
+      "last_name": "Smith",
+      "job_title": "Program Manager",
+      "citizenship": "US Citizen",
+      "professional_experience": [
+        {
+          "position": "Program Manager",
+          "company_name": "Navancio",
+          "start_date": "2020",
+          "end_date": "Present",
+          "description": "<p>Led a $50M federal IT portfolio across five task orders.</p>"
+        }
+      ],
+      "education": [
+        { "degree": "MS Computer Science", "institution_name": "George Mason University" }
+      ],
+      "technical_skills": "AWS, Kubernetes, Terraform",
+      "certifications_and_courses": "PMP, CISSP",
+      "notable_projects": "DoD JADC2 data fabric"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ProposalGPT — Document Generation</title>
+  <style>
+    :root { --bg:#0f1320; --panel:#171c2c; --line:#2a3146; --txt:#e7ebf5; --mut:#9aa6c0; --accent:#2f6fed; }
+    * { box-sizing: border-box; }
+    body { margin:0; font:14px/1.5 system-ui,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--txt); }
+    header { padding:18px 24px; border-bottom:1px solid var(--line); }
+    h1 { margin:0; font-size:18px; }
+    .sub { color:var(--mut); font-size:13px; margin-top:4px; }
+    main { display:grid; grid-template-columns: 380px 1fr; gap:0; height:calc(100vh - 64px); }
+    .side { padding:20px; border-right:1px solid var(--line); overflow:auto; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:16px; }
+    .card h2 { margin:0 0 10px; font-size:14px; }
+    button { background:var(--accent); color:#fff; border:0; border-radius:7px; padding:9px 14px; font-size:13px; cursor:pointer; }
+    button.sec { background:#28304a; }
+    button:disabled { opacity:.5; cursor:not-allowed; }
+    .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    .status { color:var(--mut); font-size:12px; margin-top:8px; min-height:16px; }
+    input[type=file] { font-size:12px; color:var(--mut); max-width:100%; }
+    .embed { padding:0; background:#fff; }
+    iframe { width:100%; height:100%; border:0; }
+    .empty { display:flex; align-items:center; justify-content:center; color:#444; background:#0b0e17; }
+    code { background:#0b0e17; padding:1px 5px; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ProposalGPT — Document Generation</h1>
+    <div class="sub">Docmosis replacement · merge JSON into a Word template · load in SuperDoc</div>
+  </header>
+  <main>
+    <div class="side">
+      <div class="card">
+        <h2>1 · Example template</h2>
+        <div class="row">
+          <button class="sec" id="dl">Download example .docx</button>
+        </div>
+        <div class="status">Restyle it in Word, keep the <code>{{ tags }}</code>, then upload below.</div>
+      </div>
+
+      <div class="card">
+        <h2>2 · Upload your template (optional)</h2>
+        <input type="file" id="tpl" accept=".docx" />
+        <div class="row" style="margin-top:8px"><button id="up">Upload template</button></div>
+        <div class="status" id="upStatus"></div>
+      </div>
+
+      <div class="card">
+        <h2>3 · Generate document</h2>
+        <div class="row">
+          <button id="gen">Generate from sample JSON</button>
+        </div>
+        <div class="status" id="genStatus"></div>
+      </div>
+    </div>
+
+    <div class="embed empty" id="embed">Generate a document to preview it here.</div>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let templateId = null, sample = null;
+
+    fetch("/api/sample").then(r => r.json()).then(d => (sample = d));
+
+    $("dl").onclick = () => window.open("/api/template/example", "_blank");
+
+    $("up").onclick = async () => {
+      const f = $("tpl").files[0];
+      if (!f) { $("upStatus").textContent = "Choose a .docx first."; return; }
+      $("upStatus").textContent = "Uploading…";
+      const fd = new FormData(); fd.append("docx", f, f.name);
+      const r = await fetch("/api/templates", { method: "POST", body: fd });
+      const j = await r.json();
+      templateId = j.id;
+      $("upStatus").textContent = `Stored template ${j.id} — generation will use it.`;
+    };
+
+    $("gen").onclick = async () => {
+      $("gen").disabled = true; $("genStatus").textContent = "Generating…";
+      try {
+        const body = { proposalData: sample };
+        if (templateId) body.templateId = templateId;
+        const r = await fetch("/api/documents", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const j = await r.json();
+        $("genStatus").textContent = `Created ${j.id}`;
+        const wrap = $("embed");
+        wrap.classList.remove("empty");
+        wrap.innerHTML = `<iframe src="/editor?doc=${j.id}"></iframe>`;
+      } catch (e) {
+        $("genStatus").textContent = "Error: " + e.message;
+      } finally { $("gen").disabled = false; }
+    };
+  </script>
+</body>
+</html>
